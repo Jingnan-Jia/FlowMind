@@ -3,6 +3,7 @@ import Canvas from './components/Canvas';
 import Sidebar from './components/Sidebar';
 import Toolbar from './components/Toolbar';
 import { flushSave, queueSave } from './lib/storage';
+import { useCloud } from './lib/cloud';
 import { useStore } from './store';
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
 
   useEffect(() => {
     void useStore.getState().init();
+    void useCloud.getState().init();
   }, []);
 
   useEffect(() => {

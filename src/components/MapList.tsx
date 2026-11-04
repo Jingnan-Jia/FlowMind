@@ -1,4 +1,5 @@
 import { useStore } from '../store';
+import { useCloud } from '../lib/cloud';
 
 function relativeTime(timestamp: number): string {
   const diff = Date.now() - timestamp;
@@ -16,6 +17,7 @@ function relativeTime(timestamp: number): string {
 export default function MapList() {
   const docs = useStore((state) => state.docs);
   const currentId = useStore((state) => state.currentId);
+  const cloudUser = useCloud((state) => state.user);
   const list = Object.values(docs).sort((a, b) => b.updatedAt - a.updatedAt);
 
   return (
@@ -52,7 +54,9 @@ export default function MapList() {
         ))}
       </div>
 
-      <div className="map-list-foot">本地保存 · 数据不出浏览器</div>
+      <div className="map-list-foot">
+        {cloudUser ? '已同步云端 · 多设备可用' : '本地保存 · 数据不出浏览器'}
+      </div>
     </div>
   );
 }

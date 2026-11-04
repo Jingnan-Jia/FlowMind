@@ -3,6 +3,7 @@ import type { Doc, LayoutMode, Marker, MindNode, ThemeMode } from './types';
 import { uid } from './lib/id';
 import { docFromParsed, parseOutline } from './lib/markdown';
 import { loadAll, queueSave, removeDoc as removeDocFromStore, saveDoc } from './lib/storage';
+import { bindLocalBridge } from './lib/cloud';
 
 const LAST_KEY = 'flowmind:last';
 const HISTORY_LIMIT = 60;
@@ -77,6 +78,8 @@ export interface AppState {
   redo: () => void;
   requestFit: () => void;
   focusNode: (id: string) => void;
+  /** 云端拉取的文档合并进本地（云端较新时由云同步层调用） */
+  applyRemoteDocs: (docs: Doc[]) => void;
 }
 
 export const useStore = create<AppState>()((set, get) => {
@@ -436,5 +439,27 @@ export const useStore = create<AppState>()((set, get) => {
     requestFit: () => set({ fitToken: get().fitToken + 1 }),
 
     focusNode: (id) => set({ focus: { id, token: Date.now() } }),
+
+    applyRemoteDocs: (incoming) => {
+      const state = get();
+      const docs = { ...state.docs };
+      let changed = false;
+      for (const doc of incoming) {
+        if (!doc?.id || !doc.nodes || !doc.rootId) continue;
+        const local = docs[doc.id];
+        if (local && local.updatedAt >= doc.updatedAt) continue;
+        docs[doc.id] = doc;
+        changed = true;
+        void saveDoc(doc);
+      }
+      if (changed) set({ docs });
+    },
   };
+});
+
+/* 云同步桥接：让 cloud.ts 读写主 store（避免循环依赖，运行时注入） */
+bindLocalBridge({
+  useLocalDocs: () => Object.values(useStore.getState().docs),
+  useLocalGet: (id) => useStore.getState().docs[id],
+  applyRemote: (docs) => useStore.getState().applyRemoteDocs(docs),
 });

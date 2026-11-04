@@ -1,4 +1,5 @@
 import type { Doc } from '../types';
+import { useCloud } from './cloud';
 
 const DB_NAME = 'flowmind';
 const DB_VERSION = 1;
@@ -79,6 +80,8 @@ export async function saveDoc(doc: Doc): Promise<void> {
   } catch {
     /* IndexedDB 不可用时依赖 localStorage */
   }
+  // 已登录时异步推送云端（内部自带防抖，失败静默不影响本地编辑）
+  useCloud.getState().pushDoc(doc);
 }
 
 export async function removeDoc(id: string): Promise<void> {
@@ -94,6 +97,7 @@ export async function removeDoc(id: string): Promise<void> {
   } catch {
     /* ignore */
   }
+  useCloud.getState().removeRemote(id);
 }
 
 let saveTimer: number | undefined;

@@ -810,3 +810,187 @@ button {
     width: 120px;
   }
 }
+
+/* ---------- 账号区（侧栏底部） ---------- */
+
+.account-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.account-avatar {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+.account-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.account-email {
+  font-size: 12px;
+  font-weight: 550;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-status {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.account-status.warn {
+  color: #d97706;
+}
+
+.account-logout {
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+.account-logout:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.account-login {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.account-login:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- 登录弹窗 ---------- */
+
+.auth-subtitle {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.auth-field {
+  margin-bottom: 10px;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+
+.auth-field input:focus {
+  border-color: var(--accent);
+}
+
+.auth-field input:disabled {
+  opacity: 0.55;
+}
+
+.auth-code-row {
+  display: flex;
+  gap: 8px;
+}
+
+.auth-code-row input {
+  flex: 1;
+}
+
+.auth-resend {
+  flex: 0 0 auto;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.auth-resend:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.auth-error {
+  margin: 2px 0 10px;
+  color: #dc2626;
+  font-size: 12px;
+}
+
+.auth-submit {
+  width: 100%;
+  padding: 9px 0;
+  border: none;
+  border-radius: 9px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-submit:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.auth-back {
+  display: block;
+  margin: 12px auto 0;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.auth-back:hover {
+  color: var(--text);
+}
